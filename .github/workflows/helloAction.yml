@@ -20,8 +20,8 @@ jobs:
       - name: Zip it
         run: zip --junk-paths hello hello
       - name: generate checksum
-        run: |
-          ZIP_CHECKSUM=$(sha256sum ./hello.cpp | awk '{print $1}')
+        id: checksums
+        run: echo ::set-output name=zip_sum::$(sha256sum ./hello.cpp | awk '{print $1}')
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -32,7 +32,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             Checksums:
-            - hello.zip sha256 ${{ env.ZIP_CHECKSUM }}
+            - hello.zip sha256 ${{ steps.checksums.outputs.zip_sum }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
