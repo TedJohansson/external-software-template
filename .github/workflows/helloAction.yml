@@ -32,7 +32,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             Checksums:
-            - hello.zip sha256 $ZIP_CHECKSUM
+            - hello.zip sha256 ${{ env.ZIP_CHECKSUM }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
